@@ -13,7 +13,6 @@ export default function TicTacToe() {
   let [queue, setQueue] = useState([]);
 
   const toggle = (e, x, y) => {
-    console.log("toggle");
     if (state) {
       return;
     }
@@ -24,14 +23,12 @@ export default function TicTacToe() {
     }
   };
   function SetImageOnCoordinates(e, x, y, image, posVal) {
-    console.log("setcorrdinte");
     e.target.innerHTML = `<img src='${image}'>`;
     const existingPosition = [...position];
     existingPosition[x][y] = posVal;
     queue.push({ x, y, e });
     setPosition(existingPosition);
     setCount(++count);
-    console.log("checkwin");
     checkWin(x, y, e);
   }
   function checkWin(x, y, e) {
@@ -86,11 +83,8 @@ export default function TicTacToe() {
     }
   }
   function removeFirst() {
-    console.log(queue.length, "--", queue);
-    if (queue.length === 9) {
-      console.log("hit");
+    if (queue.length === 7) {
       let { x, y, e } = queue.shift();
-      console.log(queue);
       setQueue([...queue]);
       e.target.innerHTML = ``;
       let newPosition = position;
