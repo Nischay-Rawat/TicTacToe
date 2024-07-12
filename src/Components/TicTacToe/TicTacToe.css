@@ -20,32 +20,111 @@
   outline: none;
   cursor: pointer;
   border-radius: 50px;
-  background:#1f3540;
-  font-size:26px;
+  background: #1f3540;
+  font-size: 26px;
   color: #26ffcb;
   margin-top: 25px;
   margin-bottom: 50px;
-
 }
 
-.boxes{
-    display:flex;
-    height:180px;
-    width:180px;
-    background: #1f3540;
-    border:4px solid #0f1b21;
-    border-radius:12px;
-    cursor:pointer;
-
+.boxes {
+  display: flex;
+  height: 180px;
+  width: 180px;
+  background: #1f3540;
+  border: 4px solid #0f1b21;
+  border-radius: 12px;
+  cursor: pointer;
 }
-.board{
-    height:600px;
-    width:564px;
-    display:flex;
+.boxes:hover {
+  border: 1px solid black;
+  -webkit-animation: breathing 5s ease-out infinite normal;
+  animation: breathing 5s ease-out infinite normal;
+  font-family: "Lantinghei SC";
 
-    margin:auto;
+  -webkit-font-smoothing: antialiased;
+  border-radius: 2px;
+  text-align: center;
 }
-.boxes img{
-    margin:50px 50px;
-    
+
+.board {
+  height: 600px;
+  width: 564px;
+  display: flex;
+
+  margin: auto;
+}
+.boxes img {
+  margin: 50px 50px;
+}
+.shake {
+  opacity: 50%;
+  animation: shake 0.5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-3px);
+  }
+  50% {
+    transform: translateX(3px);
+  }
+  75% {
+    transform: translateX(-3px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@-webkit-keyframes breathing {
+  0% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  25% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  60% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  100% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+}
+
+@keyframes breathing {
+  0% {
+    -webkit-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  25% {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+  }
+
+  60% {
+    -webkit-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  100% {
+    -webkit-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+  }
 }

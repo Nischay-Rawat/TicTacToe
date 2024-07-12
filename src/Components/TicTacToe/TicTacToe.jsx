@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./TicTacToe.css";
 import circle_icon from "../Assets/circle.png";
 import cross_icon from "../Assets/cross.png";
+
 export default function TicTacToe() {
   let [state, setState] = useState(0);
   let [count, setCount] = useState(0);
@@ -11,11 +12,31 @@ export default function TicTacToe() {
     ["", "", ""],
   ]);
   let [queue, setQueue] = useState([]);
+  useEffect(() => {
+    const socket = new WebSocket("ws://localhost:5000");
+
+    socket.onopen = () => {
+      console.log("WebSocket Client Connected");
+    };
+
+    socket.onmessage = (message) => {
+      console.log(message);
+    };
+
+    socket.onclose = () => {
+      console.log("WebSocket Client Disconnected");
+    };
+
+    return () => {
+      socket.close();
+    };
+  }, []);
 
   const toggle = (e, x, y) => {
     if (state) {
       return;
     }
+
     if (count % 2 === 0) {
       SetImageOnCoordinates(e, x, y, cross_icon, "x");
     } else {
@@ -25,14 +46,25 @@ export default function TicTacToe() {
   function SetImageOnCoordinates(e, x, y, image, posVal) {
     e.target.innerHTML = `<img src='${image}'>`;
     const existingPosition = [...position];
+    if (existingPosition[x][y] !== "") {
+      return;
+    }
+    removeFirst();
+
     existingPosition[x][y] = posVal;
-    queue.push({ x, y, e });
+    const newqueue = [...queue, { x, y, e }];
+    if (newqueue.length >= 6) {
+      newqueue[0].e.target.className =
+        newqueue[0].e.target.className + " shake";
+    }
+    console.log("queueadded");
+    setQueue(newqueue);
     setPosition(existingPosition);
     setCount(++count);
+    console.log("checkwinoutside");
     checkWin(x, y, e);
   }
   function checkWin(x, y, e) {
-    removeFirst();
     let maxRow = position.length;
     let maxCol = position[0].length;
     let d_string = position[x][y];
@@ -83,20 +115,27 @@ export default function TicTacToe() {
     }
   }
   function removeFirst() {
-    if (queue.length === 7) {
+    console.log(queue.length);
+    if (queue.length === 6) {
       let { x, y, e } = queue.shift();
+
       setQueue([...queue]);
       e.target.innerHTML = ``;
+      e.target.className = "boxes";
       let newPosition = position;
       newPosition[x][y] = "";
       setPosition(newPosition);
     }
+  }
+  function redirectToPage(){
+    
   }
   return (
     <div className="container">
       <h1 className="title">
         Tic Tac Toe <span>Moves : {count} </span>
       </h1>
+      <button onClick={e=>redirectToPage(e)}> Play with your friends</button>
       <div className="board">
         <div className="row1">
           <div className="boxes" onClick={(e) => toggle(e, 0, 0)}></div>
